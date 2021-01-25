@@ -1,0 +1,54 @@
+<% var title = 'My Year To Date' %>
+<%- include('../../partials/header', {title: title}) -%>
+<link rel="stylesheet" href="/css/my_ytd.css" />
+<main>
+    <div id="app" class="content">
+        <div id="loading" v-if="loading">
+            <h1 class="is-size-2">Loading</h1>
+        </div>
+        <div id="content" v-if="!loading">
+            <h1 class="is-size-2">Settings</h1>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="distancetype" value="mi" v-model="distancetype">
+                    Miles
+                </label>
+                <label class="radio">
+                    <input type="radio" name="distancetype" value="km" v-model="distancetype">
+                    Kilometers
+                </label>
+            </div>
+            <div class="control">
+                <label class="radio">
+                    <input type="radio" name="icongender" value="M" v-model="icongender">
+                    Male
+                </label>
+                <label class="radio">
+                    <input type="radio" name="icongender" value="F" v-model="icongender">
+                    Female
+                </label>
+                <label class="radio">
+                    <input type="radio" name="icongender" value="O" v-model="icongender">
+                    Other
+                </label>
+            </div>
+            <h1 class="is-size-2">Output</h1>
+            <div class="pre is-family-monospace">
+                <div>YTD {{ year }}</div>
+                <type-entry
+                    v-for="type in types"
+                    v-bind:type="type"
+                    v-bind:duration="ytd.activities[type]"
+                    v-bind:icongender="icongender"
+                    v-bind:distancetype="distancetype"
+                    v-if="ytd.activities[type] !== 0"
+                ></type-entry>
+            </div>
+        </div>
+    </div>
+</main>
+<script src="/js/axios.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/vue.min.js"></script>
+<script src="/js/my_ytd.js"></script>
+<%- include('../../partials/footer') -%>
