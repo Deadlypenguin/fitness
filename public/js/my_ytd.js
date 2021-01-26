@@ -29,11 +29,48 @@ const ACTIVITY_TYPES = [
 const DISTANCE = 'distance';
 const DURATION = 'duration';
 const MINUTES = 'min';
+
 const MILES = 'mi';
+const KILOMETERS = 'km';
+
+const DISTANCE_TYPES = [
+    MILES,
+    KILOMETERS
+];
+
+const DISTANCE_TYPE_MAP = {
+    [MILES]: 'Miles',
+    [KILOMETERS]: 'Kilometers'
+};
 
 const MALE = 'M';
 const FEMALE = 'F';
 const OTHER = 'O';
+
+const GENDER_TYPES = [
+    MALE,
+    FEMALE,
+    OTHER
+];
+
+const GENDER_TYPE_MAP = {
+    [MALE]: 'Male',
+    [FEMALE]: 'Female',
+    [OTHER]: 'Other'
+};
+
+const SLACK = 'slack';
+const DISCORD = 'discord';
+
+const PLATFORMS = [
+    SLACK,
+    DISCORD
+];
+
+const PLATFORM_MAP = {
+    [SLACK]: 'Slack',
+    [DISCORD]: 'Discord'
+};
 
 const UNIT_MAP = {
     [ICE_SKATE]: DURATION,
@@ -50,7 +87,9 @@ const UNIT_MAP = {
     [YOGA]: DURATION
 };
 
-const MALE_ICONS = {
+const DEFAULT_ICON = ':question:';
+
+const MALE_ICONS_SLACK = {
     [ICE_SKATE]: ':ice_skate:',
     [INLINE_SKATE]: ':roller_skate:',
     [RIDE]: ':bicyclist:',
@@ -65,7 +104,27 @@ const MALE_ICONS = {
     [YOGA]: ':man_in_lotus_position:'
 };
 
-const FEMALE_ICONS = {
+const MALE_ICONS_DISCORD = {
+    [ICE_SKATE]: ':ice_skate:',
+    [INLINE_SKATE]: ':roller_skate:',
+    [RIDE]: ':bicyclist:',
+    [ROW]: ':man_rowing_boat:',
+    [RUN]: ':man_running:',
+    [SKI]: ':skier:',
+    [SURFING]: ':man_surfing:',
+    [SWIM]: ':man_swimming:',
+    [WALK]: ':man_walking:',
+    [WHEELCHAIR]: ':man_in_manual_wheelchair:',
+    [WORKOUT]: ':man_lifting_weights:',
+    [YOGA]: ':man_in_lotus_position:'
+};
+
+const MALE_ICONS = {
+    [DISCORD]: MALE_ICONS_DISCORD,
+    [SLACK]: MALE_ICONS_SLACK
+};
+
+const FEMALE_ICONS_SLACK = {
     [ICE_SKATE]: ':ice_skate:',
     [INLINE_SKATE]: ':roller_skate:',
     [RIDE]: ':bicyclist:',
@@ -80,7 +139,27 @@ const FEMALE_ICONS = {
     [YOGA]: ':woman_in_lotus_position:'
 };
 
-const OTHER_ICONS = {
+const FEMALE_ICONS_DISCORD = {
+    [ICE_SKATE]: ':ice_skate:',
+    [INLINE_SKATE]: ':roller_skate:',
+    [RIDE]: ':bicyclist:',
+    [ROW]: ':woman_rowing-boat:',
+    [RUN]: ':woman_running:',
+    [SKI]: ':skier:',
+    [SURFING]: ':woman_surfing:',
+    [SWIM]: ':woman_swimming:',
+    [WALK]: ':woman_walking:',
+    [WHEELCHAIR]: ':woman_in_manual_wheelchair:',
+    [WORKOUT]: ':woman_lifting_weights:',
+    [YOGA]: ':woman_in_lotus_position:'
+};
+
+const FEMALE_ICONS = {
+    [DISCORD]: FEMALE_ICONS_DISCORD,
+    [SLACK]: FEMALE_ICONS_SLACK
+};
+
+const OTHER_ICONS_SLACK = {
     [ICE_SKATE]: ':ice_skate:',
     [INLINE_SKATE]: ':roller_skate:',
     [RIDE]: ':bicyclist:',
@@ -93,6 +172,26 @@ const OTHER_ICONS = {
     [WHEELCHAIR]: ':manual_wheelchair:',
     [WORKOUT]: ':weight_lifter:',
     [YOGA]: ':person_in_lotus_position:'
+};
+
+const OTHER_ICONS_DISCORD = {
+    [ICE_SKATE]: ':ice_skate:',
+    [INLINE_SKATE]: ':roller_skate:',
+    [RIDE]: ':person_biking:',
+    [ROW]: ':canoe:',
+    [RUN]: ':runner:',
+    [SKI]: ':skier:',
+    [SURFING]: ':person_surfing:',
+    [SWIM]: ':person_swimming:',
+    [WALK]: ':person_walking:',
+    [WHEELCHAIR]: ':person_in_manual_wheelchair:',
+    [WORKOUT]: ':person_lifting_weights:',
+    [YOGA]: ':person_in_lotus_position:'
+};
+
+const OTHER_ICONS = {
+    [DISCORD]: OTHER_ICONS_DISCORD,
+    [SLACK]: OTHER_ICONS_SLACK
 };
 
 const ICON_MAP = {
@@ -118,12 +217,19 @@ async function created() {
  */
 function data() {
     return {
-        loading: true,
-        ytd: {},
-        icongender: OTHER,
         distancetype: MILES,
+        distancetypemap: DISTANCE_TYPE_MAP,
+        distancetypes: DISTANCE_TYPES,
+        gendertypemap: GENDER_TYPE_MAP,
+        gendertypes: GENDER_TYPES,
+        icongender: OTHER,
+        loading: true,
+        platform: SLACK,
+        platforms: PLATFORMS,
+        platformmap: PLATFORM_MAP,
         types: ACTIVITY_TYPES,
-        year: moment().year() // eslint-disable-line no-undef
+        year: moment().year(), // eslint-disable-line no-undef
+        ytd: {}
     };
 }
 
@@ -189,19 +295,35 @@ function convert(value, type, distancetype) {
  * Gets the icon for a given gender
  * @param {String} value The type to generate an icon for
  * @param {String} icongender The gender of the icon to get
+ * @param {String} platform The platform the icon is for
  * @returns {String} The icon
  */
-function icon(value, icongender) {
-    return ICON_MAP[icongender][value];
+function icon(value, icongender, platform) {
+    if (
+        ICON_MAP[icongender] === undefined ||
+        ICON_MAP[icongender][platform] === undefined ||
+        ICON_MAP[icongender][platform][value] === undefined
+    ) {
+        return DEFAULT_ICON;
+    }
+
+    return ICON_MAP[icongender][platform][value];
 }
 
 const app = new Vue({ // eslint-disable-line no-undef,no-unused-vars
     el: '#app',
-    ytd: {},
-    loading: true,
-    icongender: OTHER,
     distancetype: MILES,
+    distancetypemap: DISTANCE_TYPE_MAP,
+    distancetypes: DISTANCE_TYPES,
+    gendertypemap: GENDER_TYPE_MAP,
+    gendertypes: GENDER_TYPES,
+    icongender: OTHER,
+    loading: true,
+    platform: SLACK,
+    platforms: PLATFORMS,
+    platformmap: PLATFORM_MAP,
     types: ACTIVITY_TYPES,
+    ytd: {},
     year: moment().year(), // eslint-disable-line no-undef
     data,
     created,
@@ -213,9 +335,10 @@ Vue.component('type-entry', { // eslint-disable-line no-undef
         'type',
         'distancetype',
         'icongender',
-        'duration'
+        'duration',
+        'platform'
     ],
-    template: '<div>{{type | icon(icongender)}} {{duration | convert(type, distancetype) | round}}{{type | unit(distancetype)}}</div>',
+    template: '<div>{{type | icon(icongender, platform)}} {{duration | convert(type, distancetype) | round}}{{type | unit(distancetype)}}</div>',
     filters: {
         convert: convert,
         icon: icon,

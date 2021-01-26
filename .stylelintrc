@@ -25,7 +25,7 @@
                 "ignore": ["after-comment"]
             }
         ],
-        "unit-whitelist": [
+        "unit-allowed-list": [
             "em",
             "rem",
             "%",

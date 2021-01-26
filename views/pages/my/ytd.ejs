@@ -9,27 +9,21 @@
         <div id="content" v-if="!loading">
             <h1 class="is-size-2">Settings</h1>
             <div class="control">
-                <label class="radio">
-                    <input type="radio" name="distancetype" value="mi" v-model="distancetype">
-                    Miles
-                </label>
-                <label class="radio">
-                    <input type="radio" name="distancetype" value="km" v-model="distancetype">
-                    Kilometers
+                <label v-for="type in distancetypes" class="radio">
+                    <input type="radio" name="distancetype" :value="type" v-model="distancetype">
+                    {{ distancetypemap[type] }}
                 </label>
             </div>
             <div class="control">
-                <label class="radio">
-                    <input type="radio" name="icongender" value="M" v-model="icongender">
-                    Male
+                <label v-for="type in gendertypes" class="radio">
+                    <input type="radio" name="icongender" :value="type" v-model="icongender">
+                    {{ gendertypemap[type] }}
                 </label>
-                <label class="radio">
-                    <input type="radio" name="icongender" value="F" v-model="icongender">
-                    Female
-                </label>
-                <label class="radio">
-                    <input type="radio" name="icongender" value="O" v-model="icongender">
-                    Other
+            </div>
+            <div class="control">
+                <label v-for="type in platforms" class="radio">
+                    <input type="radio" name="platform" :value="type" v-model="platform">
+                    {{ platformmap[type] }}
                 </label>
             </div>
             <h1 class="is-size-2">Output</h1>
@@ -41,6 +35,7 @@
                     v-bind:duration="ytd.activities[type]"
                     v-bind:icongender="icongender"
                     v-bind:distancetype="distancetype"
+                    v-bind:platform="platform"
                     v-if="ytd.activities[type] !== 0"
                 ></type-entry>
             </div>
