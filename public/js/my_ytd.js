@@ -107,7 +107,7 @@ const MALE_ICONS_SLACK = {
 const MALE_ICONS_DISCORD = {
     [ICE_SKATE]: ':ice_skate:',
     [INLINE_SKATE]: ':roller_skate:',
-    [RIDE]: ':bicyclist:',
+    [RIDE]: ':man_biking:',
     [ROW]: ':man_rowing_boat:',
     [RUN]: ':man_running:',
     [SKI]: ':skier:',
@@ -142,7 +142,7 @@ const FEMALE_ICONS_SLACK = {
 const FEMALE_ICONS_DISCORD = {
     [ICE_SKATE]: ':ice_skate:',
     [INLINE_SKATE]: ':roller_skate:',
-    [RIDE]: ':bicyclist:',
+    [RIDE]: ':woman_biking:',
     [ROW]: ':woman_rowing-boat:',
     [RUN]: ':woman_running:',
     [SKI]: ':skier:',
