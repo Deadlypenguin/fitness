@@ -78,7 +78,7 @@ Vue.component('type-entry', { // eslint-disable-line no-undef
         'duration',
         'platform'
     ],
-    template: '<div>{{type | icon(icongender, platform)}} {{duration | convert(type, distancetype) | round}}{{type | unit(distancetype)}}</div>',
+    template: '<div><span v-html="$options.filters.icon(type, icongender, platform)"></span> {{duration | convert(type, distancetype) | round}}{{type | unit(distancetype)}}</div>',
     filters: {
         convert: convert,
         icon: icon,

@@ -61,15 +61,18 @@ export const GENDER_TYPE_MAP = {
 
 const SLACK = 'slack';
 const DISCORD = 'discord';
+const SOCIAL = 'social';
 
 export const PLATFORMS = [
     SLACK,
-    DISCORD
+    DISCORD,
+    SOCIAL
 ];
 
 export const PLATFORM_MAP = {
     [SLACK]: 'Slack',
-    [DISCORD]: 'Discord'
+    [DISCORD]: 'Discord',
+    [SOCIAL]: 'Social'
 };
 
 export const UNIT_MAP = {
@@ -87,7 +90,14 @@ export const UNIT_MAP = {
     [YOGA]: DURATION
 };
 
-export const DEFAULT_ICON = ':question:';
+const DEFAULT_ICON_SLACK_DISCORD = ':question:';
+const DEFAULT_ICON_SOCIAL = '&#x2753';
+
+export const DEFAULT_ICON_MAP = {
+    [SLACK]: DEFAULT_ICON_SLACK_DISCORD,
+    [DISCORD]: DEFAULT_ICON_SLACK_DISCORD,
+    [SOCIAL]: DEFAULT_ICON_SOCIAL
+};
 export const DEFAULT_DISTANCE_TYPE = MILES;
 export const DEFAULT_PLATFORM = SLACK;
 export const DEFAULT_GENDER = OTHER;
@@ -122,9 +132,25 @@ const MALE_ICONS_DISCORD = {
     [YOGA]: ':man_in_lotus_position:'
 };
 
+const ICONS_SOCIAL = {
+    [ICE_SKATE]: '&#x26f8;',
+    [INLINE_SKATE]: '&#x1f6fc;',
+    [RIDE]: '&#x1f6b4;',
+    [ROW]: '&#x1f6a3;',
+    [RUN]: '&#x1f3c3;',
+    [SKI]: '&#x26f7;',
+    [SURFING]: '&#x1f3c4;',
+    [SWIM]: '&#x1f3ca;',
+    [WALK]: '&#x1f6b6;',
+    [WHEELCHAIR]: '&#x1f9d1;',
+    [WORKOUT]: '&#x1f3cb;',
+    [YOGA]: '&#x1f9d8;'
+};
+
 const MALE_ICONS = {
     [DISCORD]: MALE_ICONS_DISCORD,
-    [SLACK]: MALE_ICONS_SLACK
+    [SLACK]: MALE_ICONS_SLACK,
+    [SOCIAL]: ICONS_SOCIAL
 };
 
 const FEMALE_ICONS_SLACK = {
@@ -159,7 +185,8 @@ const FEMALE_ICONS_DISCORD = {
 
 const FEMALE_ICONS = {
     [DISCORD]: FEMALE_ICONS_DISCORD,
-    [SLACK]: FEMALE_ICONS_SLACK
+    [SLACK]: FEMALE_ICONS_SLACK,
+    [SOCIAL]: ICONS_SOCIAL
 };
 
 const OTHER_ICONS_SLACK = {
@@ -194,7 +221,8 @@ const OTHER_ICONS_DISCORD = {
 
 const OTHER_ICONS = {
     [DISCORD]: OTHER_ICONS_DISCORD,
-    [SLACK]: OTHER_ICONS_SLACK
+    [SLACK]: OTHER_ICONS_SLACK,
+    [SOCIAL]: ICONS_SOCIAL
 };
 
 export const ICON_MAP = {

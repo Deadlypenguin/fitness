@@ -3,7 +3,7 @@ import {
     DURATION,
     MINUTES,
     ICON_MAP,
-    DEFAULT_ICON,
+    DEFAULT_ICON_MAP,
     MILES
 } from '/js/consts.js';
 
@@ -68,7 +68,7 @@ export function icon(value, icongender, platform) {
         ICON_MAP[icongender][platform] === undefined ||
         ICON_MAP[icongender][platform][value] === undefined
     ) {
-        return DEFAULT_ICON;
+        return DEFAULT_ICON_MAP[platform];
     }
 
     return ICON_MAP[icongender][platform][value];
