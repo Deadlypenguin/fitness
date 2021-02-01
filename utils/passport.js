@@ -1,7 +1,9 @@
+const urljoin = require('url-join');
+
 const stravaConfig = {
     clientID: process.env.STRAVA_CLIENT_ID,
     clientSecret: process.env.STRAVA_CLIENT_SECRET,
-    callbackURL: process.env.STRAVA_CALLBACK_URL
+    callbackURL: urljoin(process.env.FITNESS_HOSTNAME, process.env.STRAVA_CALLBACK_URL)
 };
 
 const stravaAuthConfig = { scope: 'activity:read_all' };

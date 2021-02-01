@@ -1,14 +1,18 @@
 <% var title = 'Fitness' %>
 <%- include('../partials/header', {title: title}) -%>
-<main>
-    <div class="content">
-        <h1>Fitness</h1>
-        <p>This site is currently in beta and will be rolling out more features over time</p>
+<div id="site_wrapper" class="container is-fullhd p-3">
+    <%- include('../partials/navigation') -%>
+    <section class="section">
+        <div class="container content">
+            <h1>Fitness</h1>
+            <p>This site is currently in beta and will be rolling out more features over time</p>
 
-        <h2>My Data</h2>
-        <ul>
-            <li><a href="/my/ytd/">My Year to Date</a></li>
-        </ul>
-    </div>
-</main>
-<%- include('../partials/footer') -%>
+            <h2>My Data</h2>
+            <ul>
+                <li><a href="/my/ytd/">My Year to Date</a></li>
+            </ul>
+        </div>
+    </section>
+    <%- include('../partials/footer') -%>
+</div>
+<%- include('../partials/end') -%>

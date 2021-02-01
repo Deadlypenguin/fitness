@@ -28,6 +28,30 @@ app.get('/js/axios.min.js', function (req, res) {
 app.get('/js/moment.min.js', function (req, res) {
     res.sendFile(path.join(__dirname, '/node_modules/moment/min/moment.min.js'));
 });
+app.get('/js/jquery.slim.min.js', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/jquery/dist/jquery.slim.min.js'));
+});
+app.get('/css/fontawesome.min.css', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css'));
+});
+app.get('/css/solid.min.css', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/css/solid.min.css'));
+});
+app.get('/webfonts/fa-solid-900.woff', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff'));
+});
+app.get('/webfonts/fa-solid-900.woff2', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2'));
+});
+app.get('/webfonts/fa-solid-900.ttf', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.ttf'));
+});
+app.get('/webfonts/fa-solid-900.eot', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot'));
+});
+app.get('/webfonts/fa-solid-900.svg', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.svg'));
+});
 
 const session_data = {
     secret: process.env.SESSION_SECRET,

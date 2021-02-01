@@ -1,8 +1,12 @@
 <% var title = 'Oh No!' %>
 <%- include('../partials/header', {title, title}) -%>
-<main>
-    <div class="content">
-        <h1>Something has gone wrong!</h1>
-    </div>
-</main>
-<%- include('../partials/footer') -%>
+<div id="site_wrapper" class="container is-fullhd p-3">
+    <%- include('../partials/navigation') -%>
+    <section class="section">
+        <div class="container content">
+            <h1>Something has gone wrong!</h1>
+        </div>
+    </section>
+    <%- include('../partials/footer') -%>
+</div>
+<%- include('../partials/end') -%>
