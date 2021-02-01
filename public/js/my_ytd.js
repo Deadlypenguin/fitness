@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import {
     DISTANCE_TYPES,
     DISTANCE_TYPE_MAP,

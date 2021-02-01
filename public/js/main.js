@@ -1,3 +1,5 @@
+/* eslint-env jquery,browser */
+
 const NAVBAR_BURGER = '.navbar-burger';
 const NAVBAR_MENU = '.navbar-menu';
 const IS_ACTIVE = 'is-active';
