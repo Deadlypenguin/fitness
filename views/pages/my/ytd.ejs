@@ -11,38 +11,48 @@
             </div>
             <div id="content" v-if="!loading" v-cloak>
                 <h2 class="is-size-3">Settings</h1>
-                <div class="control">
-                    <label v-for="type in distancetypes" class="radio">
-                        <input type="radio" name="distancetype" :value="type" v-model="distancetype">
-                        {{ distancetypemap[type] }}
-                    </label>
-                </div>
-                <div class="control">
-                    <label v-for="type in gendertypes" class="radio">
-                        <input type="radio" name="icongender" :value="type" v-model="icongender">
-                        {{ gendertypemap[type] }}
-                    </label>
-                </div>
-                <div class="control">
-                    <label v-for="type in platforms" class="radio">
-                        <input type="radio" name="platform" :value="type" v-model="platform">
-                        {{ platformmap[type] }}
-                    </label>
-                </div>
-                <div class="control">
-                    <label class="checkbox">
-                        <input type="checkbox" name="activitycount" :value="activitycount" v-model="activitycount">
-                        Include Activity Count
-                    </label>
-                </div>
-                <h2 class="is-size-3">Output</h1>
-                <div class="pre is-family-monospace">
-                    <div>YTD {{ year }}</div>
-                    <div v-if="activitycount">{{ ytd.size }} activities in {{ totaldays }} days</div>
-                    <type-entry v-for="type in types" v-bind:type="type" v-bind:duration="ytd.activities[type]"
-                        v-bind:icongender="icongender" v-bind:distancetype="distancetype" v-bind:platform="platform"
-                        v-if="ytd.activities[type] !== 0"></type-entry>
-                </div>
+                    <div class="control">
+                        <label v-for="type in distancetypes" class="radio">
+                            <input type="radio" name="distancetype" :value="type" v-model="distancetype">
+                            {{ distancetypemap[type] }}
+                        </label>
+                    </div>
+                    <div class="control">
+                        <label v-for="type in gendertypes" class="radio">
+                            <input type="radio" name="icongender" :value="type" v-model="icongender">
+                            {{ gendertypemap[type] }}
+                        </label>
+                    </div>
+                    <div class="control">
+                        <label v-for="type in platforms" class="radio">
+                            <input type="radio" name="platform" :value="type" v-model="platform">
+                            {{ platformmap[type] }}
+                        </label>
+                    </div>
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="globalactivitycount" :value="globalactivitycount"
+                                v-model="globalactivitycount">
+                            Include year to date activity count
+                        </label>
+                    </div>
+                    <div class="control">
+                        <label class="checkbox">
+                            <input type="checkbox" name="individualactivitycount" :value="individualactivitycount"
+                                v-model="individualactivitycount">
+                            Include per type activity count
+                        </label>
+                    </div>
+                    <h2 class="is-size-3">Output</h1>
+                        <div class="pre is-family-monospace">
+                            <div>YTD {{ year }}</div>
+                            <div v-if="globalactivitycount">{{ ytd.size }} activities in {{ totaldays }} days</div>
+                            <type-entry v-for="type in types" v-bind:type="type"
+                                v-bind:duration="ytd.activities[type].duration"
+                                v-bind:count="ytd.activities[type].count" v-bind:icongender="icongender"
+                                v-bind:activitycount="individualactivitycount" v-bind:distancetype="distancetype"
+                                v-bind:platform="platform" v-if="ytd.activities[type].count !== 0"></type-entry>
+                        </div>
             </div>
         </div>
     </section>

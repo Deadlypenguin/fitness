@@ -20,7 +20,10 @@ router.get('/', routingUtils.verifyAuth, function (req, res) {
     };
 
     lodash.forEach(strava.constants.activity_types, function (activity_type) {
-        result.activities[activity_type] = 0;
+        result.activities[activity_type] = {
+            count: 0,
+            duration: 0
+        };
     });
 
     strava.getActivitiesSinceNewYear(req.user.accessToken)
@@ -38,7 +41,8 @@ router.get('/', routingUtils.verifyAuth, function (req, res) {
 
                 const field_name = lodash.get(strava.constants.type_to_field_map, normalized_type);
 
-                result.activities[normalized_type] += lodash.get(activity, field_name);
+                result.activities[normalized_type].duration += lodash.get(activity, field_name);
+                result.activities[normalized_type].count += 1;
             });
 
             res.json(result);

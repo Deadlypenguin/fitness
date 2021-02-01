@@ -41,17 +41,18 @@ async function created() {
  */
 function data() {
     return {
-        activitycount: true,
         distancetype: DEFAULT_DISTANCE_TYPE,
         distancetypemap: DISTANCE_TYPE_MAP,
         distancetypes: DISTANCE_TYPES,
         gendertypemap: GENDER_TYPE_MAP,
         gendertypes: GENDER_TYPES,
+        globalactivitycount: true,
         icongender: DEFAULT_GENDER,
+        individualactivitycount: true,
         loading: true,
         platform: DEFAULT_PLATFORM,
-        platforms: PLATFORMS,
         platformmap: PLATFORM_MAP,
+        platforms: PLATFORMS,
         types: ACTIVITY_TYPES,
         year: today.year(),
         totaldays: today.diff(janfirst, 'days') + 1,
@@ -80,13 +81,20 @@ const app = new Vue({ // eslint-disable-line no-undef,no-unused-vars
 
 Vue.component('type-entry', { // eslint-disable-line no-undef
     props: [
-        'type',
+        'activitycount',
+        'count',
         'distancetype',
-        'icongender',
         'duration',
-        'platform'
+        'icongender',
+        'platform',
+        'type'
     ],
-    template: '<div><span v-html="$options.filters.icon(type, icongender, platform)"></span> {{duration | convert(type, distancetype) | round}}{{type | unit(distancetype)}}</div>',
+    template: '<div>' +
+                '<span v-html="$options.filters.icon(type, icongender, platform)"></span> ' +
+                '<span v-if="activitycount">x{{ count }}</span> ' +
+                '{{duration | convert(type, distancetype) | round}}' +
+                '{{type | unit(distancetype)}}' +
+                '</div>',
     filters: {
         convert: convert,
         icon: icon,
