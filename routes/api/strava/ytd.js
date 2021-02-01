@@ -28,9 +28,9 @@ router.get('/', routingUtils.verifyAuth, function (req, res) {
 
     strava.getActivitiesSinceNewYear(req.user.accessToken)
         .then(function (data) {
-            result.size = lodash.size(data.data);
+            result.size = lodash.size(data);
 
-            lodash.forEach(data.data, function (activity) {
+            lodash.forEach(data, function (activity) {
                 let normalized_type = lodash.has(strava.constants.activity_map, activity.type) ?
                     lodash.get(strava.constants.activity_map, activity.type) :
                     activity.type;
@@ -47,6 +47,7 @@ router.get('/', routingUtils.verifyAuth, function (req, res) {
 
             res.json(result);
         }).catch(function (error) {
+            console.log(error);
             res.status(error.response.status).send({error: error.response.message});
         });
 });

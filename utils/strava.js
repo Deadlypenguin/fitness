@@ -1,5 +1,6 @@
 const moment = require('moment');
 const axios = require('axios');
+const lodash = require('lodash');
 
 const TYPE = 'type';
 const DISTANCE = 'distance';
@@ -106,17 +107,39 @@ const activity_map = {
 /**
  * Get all the activities since the new year
  * @param {String} accessToken The access token
- * @returns {Object[]} The activities since the new year
+ * @param {Object[]} data The data
+ * @param {Integer} start The unix timestamp to start with
+ * @param {Integer} page What page to get
+ * @param {Function} resolve The resolve function
+ * @param {Function} reject The reject function
+ * @returns {undefined}
+ */
+function getActivitiesSinceNewYearPerPage(accessToken, data, start, page, resolve, reject) {
+    const config = { headers: { Authorization: `Bearer ${accessToken}` }};
+    const url = `https://www.strava.com/api/v3/athlete/activities?after=${start}&page=${page}`;
+
+    axios.get(url, config)
+        .then(function (results) {
+            if (lodash.isEmpty(results.data)) {
+                resolve(data);
+            } else {
+                getActivitiesSinceNewYearPerPage(accessToken, lodash.concat(data, results.data), start, page + 1, resolve, reject);
+            }
+        })
+        .catch(reject);
+}
+
+/**
+ * Get all the activities since the new year
+ * @param {String} accessToken The access token
+ * @param {Integer} page What page to get
+ * @returns {Promise<Object[]>} The activities since the new year
  */
 function getActivitiesSinceNewYear(accessToken) {
-    const config = { headers: { Authorization: `Bearer ${accessToken}` }};
     const start = moment().utc().startOf('year').unix();
-    const url = `https://www.strava.com/api/v3/athlete/activities?after=${start}`;
 
     return new Promise(function (resolve, reject) {
-        axios.get(url, config)
-            .then(resolve)
-            .catch(reject);
+        getActivitiesSinceNewYearPerPage(accessToken, [], start, 1, resolve, reject);
     });
 }
 
