@@ -29,9 +29,16 @@
                         {{ platformmap[type] }}
                     </label>
                 </div>
+                <div class="control">
+                    <label class="checkbox">
+                        <input type="checkbox" name="activitycount" :value="activitycount" v-model="activitycount">
+                        Include Activity Count
+                    </label>
+                </div>
                 <h2 class="is-size-3">Output</h1>
                 <div class="pre is-family-monospace">
                     <div>YTD {{ year }}</div>
+                    <div v-if="activitycount">{{ ytd.size }} activities in {{ totaldays }} days</div>
                     <type-entry v-for="type in types" v-bind:type="type" v-bind:duration="ytd.activities[type]"
                         v-bind:icongender="icongender" v-bind:distancetype="distancetype" v-bind:platform="platform"
                         v-if="ytd.activities[type] !== 0"></type-entry>

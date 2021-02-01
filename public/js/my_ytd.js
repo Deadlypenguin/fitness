@@ -1,4 +1,5 @@
 /* eslint-env browser */
+/* global moment:readonly */
 
 import {
     DISTANCE_TYPES,
@@ -20,6 +21,9 @@ import {
     unit
 } from '/js/utils.js';
 
+const today = moment();
+const janfirst = moment().startOf('year');
+
 /**
  * Gets the data from the API when Vue is loaded
  * @returns {undefined}
@@ -37,6 +41,7 @@ async function created() {
  */
 function data() {
     return {
+        activitycount: true,
         distancetype: DEFAULT_DISTANCE_TYPE,
         distancetypemap: DISTANCE_TYPE_MAP,
         distancetypes: DISTANCE_TYPES,
@@ -48,7 +53,8 @@ function data() {
         platforms: PLATFORMS,
         platformmap: PLATFORM_MAP,
         types: ACTIVITY_TYPES,
-        year: moment().year(), // eslint-disable-line no-undef
+        year: today.year(),
+        totaldays: today.diff(janfirst, 'days') + 1,
         ytd: {}
     };
 }
