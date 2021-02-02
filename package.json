@@ -1,6 +1,6 @@
 {
   "name": "fitness",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A site related to fitness stuff",
   "main": "index.js",
   "scripts": {
