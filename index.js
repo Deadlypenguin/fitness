@@ -37,6 +37,9 @@ app.get('/css/fontawesome.min.css', function (req, res) {
 app.get('/css/solid.min.css', function (req, res) {
     res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/css/solid.min.css'));
 });
+app.get('/css/brands.min.css', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/css/brands.min.css'));
+});
 app.get('/webfonts/fa-solid-900.woff', function (req, res) {
     res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff'));
 });
@@ -51,6 +54,21 @@ app.get('/webfonts/fa-solid-900.eot', function (req, res) {
 });
 app.get('/webfonts/fa-solid-900.svg', function (req, res) {
     res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-solid-900.svg'));
+});
+app.get('/webfonts/fa-brands-400.woff', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff'));
+});
+app.get('/webfonts/fa-brands-400.woff2', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.woff2'));
+});
+app.get('/webfonts/fa-brands-400.ttf', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.ttf'));
+});
+app.get('/webfonts/fa-brands-400.eot', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.eot'));
+});
+app.get('/webfonts/fa-brands-400.svg', function (req, res) {
+    res.sendFile(path.join(__dirname, '/node_modules/@fortawesome/fontawesome-free/webfonts/fa-brands-400.svg'));
 });
 
 const session_data = {
