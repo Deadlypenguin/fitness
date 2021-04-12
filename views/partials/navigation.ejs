@@ -12,5 +12,15 @@
             <a class="navbar-item" href="/">Home</a>
             <a class="navbar-item" href="/my/ytd">My YTD</a>
         </div>
+        <% if (locals.user) { %>
+        <div class="navbar-end">
+            <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-link"><%=  user.username %></a>
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="/logout">Logout</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
     </div>
 </nav>
