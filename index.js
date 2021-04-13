@@ -23,7 +23,7 @@ app.get(lodash.keys(routingUtils.module_assets), routingUtils.getAsset);
 
 const session_data = {
     secret: process.env.SESSION_SECRET,
-    maxAge: 6 * 60 * 60 * 1000
+    cookie: { maxAge: 2 * 60 * 60 * 1000 }
 };
 
 app.use(session(session_data));
