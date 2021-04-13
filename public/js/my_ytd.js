@@ -92,7 +92,7 @@ Vue.component('type-entry', { // eslint-disable-line no-undef
     template: '<div>' +
                 '<span v-html="$options.filters.icon(type, icongender, platform)"></span> ' +
                 '<span v-if="activitycount">x{{ count }}</span> ' +
-                '{{duration | convert(type, distancetype) | round}}' +
+                '{{duration | convert(type, distancetype) | round(2, true)}}' +
                 '{{type | unit(distancetype)}}' +
                 '</div>',
     filters: {

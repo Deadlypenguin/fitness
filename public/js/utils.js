@@ -11,11 +11,16 @@ import {
  * Rounds a float
  * @param {Float} value The value to round
  * @param {Integer} decimals The number of decimals to round to
+ * @param {Boolean} round_zero Round to the decimal only if it would display 0
  * @returns {Float} The rounded variable
  */
-export function round(value, decimals) {
+export function round(value, decimals, round_zero) {
     if (!value) {
         value = 0;
+    }
+
+    if (round_zero && value > 1) {
+        decimals = 0;
     }
 
     if (!decimals) {
