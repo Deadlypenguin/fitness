@@ -70,13 +70,28 @@ function setUserData(response) {
     this.icongender = this.ytd.profile.sex;
 }
 
+/**
+ * Copies the output box to the clipboard
+ * @returns {undefined}
+ */
+function copyOutput() {
+    const output = document.getElementById('ytd_output');
+    navigator.clipboard.writeText(output.textContent);
+
+    const notification = document.getElementById('clipboard_ok');
+    notification.classList.remove('is-hidden');
+}
+
 const app = new Vue({ // eslint-disable-line no-undef,no-unused-vars
     el: '#app',
     loading: true,
     ytd: {},
     data,
     created,
-    methods: { setUserData: setUserData }
+    methods: {
+        copyOutput: copyOutput,
+        setUserData: setUserData
+    }
 });
 
 Vue.component('type-entry', { // eslint-disable-line no-undef

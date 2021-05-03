@@ -43,8 +43,12 @@
                             Include per type activity count
                         </label>
                     </div>
-                    <h2 class="is-size-3">Output</h1>
-                        <div class="pre is-family-monospace">
+                    <h2 class="is-size-3">
+                        Output
+                        <i class="fas fa-copy is-pulled-right is-size-4 is-clickable" v-on:click="copyOutput"></i>
+                    </h1>
+                    <div id="clipboard_ok" class="notification is-success is-hidden">Copied to clipboard</div>
+                        <div class="pre is-family-monospace" id="ytd_output">
                             <div>YTD {{ year }}</div>
                             <div v-if="globalactivitycount">{{ ytd.size }} activities in {{ totaldays }} days</div>
                             <type-entry v-for="type in types" v-bind:type="type"
