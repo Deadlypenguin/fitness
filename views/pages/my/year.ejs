@@ -1,11 +1,11 @@
-<% var title = 'My Year To Date' %>
+<% var title = 'My ' + year %>
 <%- include('../../partials/header', {title: title}) -%>
 <link rel="stylesheet" href="/css/my_ytd.css" />
 <div id="site_wrapper" class="container is-fullhd p-3">
     <%- include('../../partials/navigation', {user: user}) -%>
     <section class="section" id="app">
         <div class="container content">
-            <h1 class="is-size-2">My Year To Date</h1>
+            <h1 class="is-size-2">My {{ year }}</h1>
             <div id="loading" v-if="loading">
                 <h2 class="is-size-3"><i class="fas fa-spinner fa-spin"></i></h1>
             </div>
@@ -66,5 +66,9 @@
 <script src="/js/axios.min.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/vue.min.js"></script>
-<script type="module" src="/js/my_ytd.js"></script>
+
+<script>
+    window.year = '<%= year %>';
+</script>
+<script type="module" src="/js/my_year.js"></script>
 <%- include('../../partials/end') -%>

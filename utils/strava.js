@@ -109,6 +109,50 @@ const activity_map = {
  * @param {String} accessToken The access token
  * @param {Object[]} data The data
  * @param {Integer} start The unix timestamp to start with
+ * @param {Integer} end The unix timestamp to end with
+ * @param {Integer} page What page to get
+ * @param {Function} resolve The resolve function
+ * @param {Function} reject The reject function
+ * @returns {undefined}
+ */
+function getActivitiesRangePerPage(accessToken, data, start, end, page, resolve, reject) {
+    const config = { headers: { Authorization: `Bearer ${accessToken}` }};
+    const url = `https://www.strava.com/api/v3/athlete/activities?after=${start}&before=${end}&page=${page}`;
+
+    console.log(end);
+
+    axios.get(url, config)
+        .then(function (results) {
+            if (lodash.isEmpty(results.data)) {
+                resolve(data);
+            } else {
+                getActivitiesRangePerPage(accessToken, lodash.concat(data, results.data), start, end, page + 1, resolve, reject);
+            }
+        })
+        .catch(reject);
+}
+
+/**
+ * Get all the activities since the new year
+ * @param {String} accessToken The access token
+ * @param {Integer} year The year
+ * @param {Integer} page What page to get
+ * @returns {Promise<Object[]>} The activities since the new year
+ */
+function getActivitiesForYear(accessToken, year) {
+    const start = moment().year(year).utc().startOf('year').unix();
+    const end = moment().year(year).utc().endOf('year').unix();
+
+    return new Promise(function (resolve, reject) {
+        getActivitiesRangePerPage(accessToken, [], start, end, 1, resolve, reject);
+    });
+}
+
+/**
+ * Get all the activities since the new year
+ * @param {String} accessToken The access token
+ * @param {Object[]} data The data
+ * @param {Integer} start The unix timestamp to start with
  * @param {Integer} page What page to get
  * @param {Function} resolve The resolve function
  * @param {Function} reject The reject function
@@ -151,5 +195,6 @@ module.exports = {
         default_type: WORKOUT,
         type_to_field_map: type_to_field_map
     },
-    getActivitiesSinceNewYear: getActivitiesSinceNewYear
+    getActivitiesSinceNewYear: getActivitiesSinceNewYear,
+    getActivitiesForYear: getActivitiesForYear
 };

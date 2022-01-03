@@ -12,7 +12,7 @@ const profileFields = [
     'sex'
 ];
 
-router.get('/', routingUtils.verifyAuth, function (req, res) {
+router.get('/:year(\\d+)', routingUtils.verifyAuth, function (req, res) {
     let result = {
         profile: lodash.pick(req.user, profileFields),
         activities: {},
@@ -26,7 +26,7 @@ router.get('/', routingUtils.verifyAuth, function (req, res) {
         };
     });
 
-    strava.getActivitiesSinceNewYear(req.user.accessToken)
+    strava.getActivitiesForYear(req.user.accessToken, req.params.year)
         .then(function (data) {
             result.size = lodash.size(data);
 

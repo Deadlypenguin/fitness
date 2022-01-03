@@ -1,11 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const ytdRoute = require('./ytd');
+const yearRoute = require('./year');
 
-router.get('/', function (req, res) {
-    res.json({});
-});
-router.use('/ytd', ytdRoute);
+router.use('/', yearRoute);
 
 module.exports = router;

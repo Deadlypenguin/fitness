@@ -1,5 +1,5 @@
 /* eslint-env browser */
-/* global moment:readonly */
+/* global moment:readonly, axios:readonly */
 
 import {
     DISTANCE_TYPES,
@@ -21,15 +21,17 @@ import {
     unit
 } from '/js/utils.js';
 
+const year = isNaN(parseInt(window.year)) ? moment().year() : parseInt(window.year);
+console.log(year);
 const today = moment();
-const janfirst = moment().startOf('year');
+const janfirst = moment().year(year).startOf('year');
 
 /**
  * Gets the data from the API when Vue is loaded
  * @returns {undefined}
  */
 async function created() {
-    const userData = await axios.get('/api/strava/ytd'); // eslint-disable-line no-undef
+    const userData = await axios.get(`/api/strava/${year}`);
 
     this.setUserData(userData);
     this.loading = false;
@@ -40,6 +42,13 @@ async function created() {
  * @returns {Object} The page data
  */
 function data() {
+    let numberOfDays = today.diff(janfirst, 'days') + 1;
+
+    if (today.year() !== year) {
+        const endOfYear = moment().year(year).endOf('year');
+        numberOfDays = endOfYear.diff(janfirst, 'days') + 1;
+    }
+
     return {
         distancetype: DEFAULT_DISTANCE_TYPE,
         distancetypemap: DISTANCE_TYPE_MAP,
@@ -54,8 +63,8 @@ function data() {
         platformmap: PLATFORM_MAP,
         platforms: PLATFORMS,
         types: ACTIVITY_TYPES,
-        year: today.year(),
-        totaldays: today.diff(janfirst, 'days') + 1,
+        year: year,
+        totaldays: numberOfDays,
         ytd: {}
     };
 }
