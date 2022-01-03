@@ -106,27 +106,23 @@ const activity_map = {
 
 /**
  * Get all the activities since the new year
- * @param {String} accessToken The access token
  * @param {Object[]} data The data
- * @param {Integer} start The unix timestamp to start with
- * @param {Integer} end The unix timestamp to end with
- * @param {Integer} page What page to get
+ * @param {Object} opts The options
  * @param {Function} resolve The resolve function
  * @param {Function} reject The reject function
  * @returns {undefined}
  */
-function getActivitiesRangePerPage(accessToken, data, start, end, page, resolve, reject) {
-    const config = { headers: { Authorization: `Bearer ${accessToken}` }};
-    const url = `https://www.strava.com/api/v3/athlete/activities?after=${start}&before=${end}&page=${page}`;
-
-    console.log(end);
+function getActivitiesRangePerPage(data, opts, resolve, reject) {
+    const config = { headers: { Authorization: `Bearer ${opts.accessToken}` }};
+    const url = `https://www.strava.com/api/v3/athlete/activities?after=${opts.start}&before=${opts.end}&page=${opts.page}`;
 
     axios.get(url, config)
         .then(function (results) {
             if (lodash.isEmpty(results.data)) {
                 resolve(data);
             } else {
-                getActivitiesRangePerPage(accessToken, lodash.concat(data, results.data), start, end, page + 1, resolve, reject);
+                opts.page += 1;
+                getActivitiesRangePerPage(lodash.concat(data, results.data), opts, resolve, reject);
             }
         })
         .catch(reject);
@@ -142,48 +138,15 @@ function getActivitiesRangePerPage(accessToken, data, start, end, page, resolve,
 function getActivitiesForYear(accessToken, year) {
     const start = moment().year(year).utc().startOf('year').unix();
     const end = moment().year(year).utc().endOf('year').unix();
+    const opts = {
+        accessToken: accessToken,
+        start: start,
+        end: end,
+        page: 1
+    };
 
     return new Promise(function (resolve, reject) {
-        getActivitiesRangePerPage(accessToken, [], start, end, 1, resolve, reject);
-    });
-}
-
-/**
- * Get all the activities since the new year
- * @param {String} accessToken The access token
- * @param {Object[]} data The data
- * @param {Integer} start The unix timestamp to start with
- * @param {Integer} page What page to get
- * @param {Function} resolve The resolve function
- * @param {Function} reject The reject function
- * @returns {undefined}
- */
-function getActivitiesSinceNewYearPerPage(accessToken, data, start, page, resolve, reject) {
-    const config = { headers: { Authorization: `Bearer ${accessToken}` }};
-    const url = `https://www.strava.com/api/v3/athlete/activities?after=${start}&page=${page}`;
-
-    axios.get(url, config)
-        .then(function (results) {
-            if (lodash.isEmpty(results.data)) {
-                resolve(data);
-            } else {
-                getActivitiesSinceNewYearPerPage(accessToken, lodash.concat(data, results.data), start, page + 1, resolve, reject);
-            }
-        })
-        .catch(reject);
-}
-
-/**
- * Get all the activities since the new year
- * @param {String} accessToken The access token
- * @param {Integer} page What page to get
- * @returns {Promise<Object[]>} The activities since the new year
- */
-function getActivitiesSinceNewYear(accessToken) {
-    const start = moment().utc().startOf('year').unix();
-
-    return new Promise(function (resolve, reject) {
-        getActivitiesSinceNewYearPerPage(accessToken, [], start, 1, resolve, reject);
+        getActivitiesRangePerPage([], opts, resolve, reject);
     });
 }
 
@@ -195,6 +158,5 @@ module.exports = {
         default_type: WORKOUT,
         type_to_field_map: type_to_field_map
     },
-    getActivitiesSinceNewYear: getActivitiesSinceNewYear,
     getActivitiesForYear: getActivitiesForYear
 };
